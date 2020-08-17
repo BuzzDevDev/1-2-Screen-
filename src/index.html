@@ -9,15 +9,17 @@
     />
     <link rel="stylesheet" href="index.css" />
     <script defer src="render.js"></script>
-    <script defer src="helpers/helper.js"></script>
   </head>
   <body class="content">
     <h1>1, 2, Screen! Screen Recorder!</h1>
     <div id="timerCountHolder"><h1 id="timerCount"></h1></div>
-  
-    <video></video>
-    <button id="startBtn" class="button is-primary">Start</button>
-    <button id="stopBtn" class="button is-warning">Stop</button>
-    <button id="videoSelectBtn" class="button is-info">Choose a Video Source</button>
+    <div id="video-wrapper">
+      <video></video>
+    </div>
+    <button id="startBtn" style="background: url('../img/greenbtn.png')" class="button is-primary">Start</button>
+    <button id="stopBtn" style="background: url('../img/yellowbtn.png')" class="button is-warning">Stop</button><br>
+    <button id="videoSelectBtn" style="background: url('../img/bluebtn.png'); background-size: cover;" class="button is-info">Choose a Video Source</button>
+    <br><br>
+    <h3>To close all windows, focus, then alt + f4!</h3>
   </body>
 </html>

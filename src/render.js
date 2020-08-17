@@ -4,6 +4,18 @@ const { writeFile } = require('fs');
 
 const { dialog, Menu } = remote;
 
+const app = require('electron').remote.app
+
+// helpers
+
+
+
+
+// my utils
+
+const { rate } = require('./utils/rate')
+
+
 // Global state
 let mediaRecorder; // MediaRecorder instance to capture footage
 const recordedChunks = [];
@@ -15,6 +27,7 @@ const startBtn = document.getElementById('startBtn');
 startBtn.onclick = e => {
   mediaRecorder.start();
   startBtn.classList.add('is-danger');
+  startBtn.style.background = "background: url('../img/redbtn.png')"
   startBtn.innerText = 'Recording';
 };
 
@@ -23,6 +36,7 @@ const stopBtn = document.getElementById('stopBtn');
 stopBtn.onclick = e => {
   mediaRecorder.stop();
   startBtn.classList.remove('is-danger');
+  startBtn.style.background = "background: url('../img/greenbtn.png')"
   startBtn.innerText = 'Start';
 };
 
@@ -32,7 +46,7 @@ videoSelectBtn.onclick = getVideoSources;
 // Get the available video sources
 async function getVideoSources() {
   const inputSources = await desktopCapturer.getSources({
-    types: ['window', 'screen']
+    types: ['screen']
   });
 
   const videoOptionsMenu = Menu.buildFromTemplate(

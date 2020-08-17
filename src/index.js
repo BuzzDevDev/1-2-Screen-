@@ -1,5 +1,6 @@
-const { app, BrowserWindow } = require('electron');
+const { app, BrowserWindow, dialog } = require('electron');
 const path = require('path');
+
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (require('electron-squirrel-startup')) { // eslint-disable-line global-require
@@ -13,21 +14,77 @@ const createWindow = () => {
     height: 1200,
     resizable: false,
     fullscreen: false,
+    focusable: true,
     webPreferences: {
       nodeIntegration: true,
-      //devTools: false,
+      devTools: true,
       disableHtmlFullscreenWindowResize: true,
       enableRemoteModule: true
     }
   });
+
+  // create watermark window
+  const watermarkWindow = new BrowserWindow({
+    width: 200,
+    height: 100,
+    alwaysOnTop: true,
+    movable: false,
+    minimizable: false,
+    maximizable: false,
+    resizable: false,
+    focusable: true,
+    closable: false,
+    opacity: 0.5,
+    skipTaskbar: true,
+    titleBarStyle: 'hidden',
+    webPreferences: {
+      nodeIntegration: true,
+      devTools: false,
+      disableHtmlFullscreenWindowResize: true,
+      enableRemoteModule: true
+    }
+  })
+
+
+  // remove menufor all
+
+  //mainWindow.removeMenu()
+
+  watermarkWindow.removeMenu()
+
+  // load watermark window
+
+  watermarkWindow.loadFile(path.join(__dirname, 'watermark.html'))
+
+  // position it
+
+  watermarkWindow.setPosition(1720,920)
 
   // disable maximize
   mainWindow.on('maximize', () => {
     mainWindow.unmaximize()
   })
 
+  watermarkWindow.on('maximize', () => {
+    watermarkWindow.unmaximize()
+    watermarkWindow.width = 200
+    watermarkWindow.height = 100
+  })
+
+  watermarkWindow.on('minimize', () => {
+    watermarkWindow.width = 200
+    watermarkWindow.height = 100
+  })
+
   // and load the index.html of the app.
   mainWindow.loadFile(path.join(__dirname, 'index.html'));
+
+  // export watermark
+
+  module.exports = {
+    watermarkWindow,
+    mainWindow
+  }
 
 };
 
@@ -55,3 +112,4 @@ app.on('activate', () => {
 
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and import them here.
+
